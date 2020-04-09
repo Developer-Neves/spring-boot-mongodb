@@ -1,5 +1,6 @@
 package com.jdnevesti.mongodb.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jdnevesti.mongodb.domain.User;
 import com.jdnevesti.mongodb.dto.UserDTO;
@@ -45,4 +49,17 @@ public class UserResource {
 		User obj = service.findById(id);		
 		return ResponseEntity.ok().body(new UserDTO(obj));
 	}
+	
+	@PostMapping // ou @RequestMapping(method=RequestMethod.POST) 
+	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto){ // O @RequestBody para usar o UserDto
+		User obj = service.fromDTO(objDto);	// convertendo o objDto para o User obj
+		obj = service.insert(obj); // chamando o método insert e inserindo os dados no banco
+		
+		// pegando o endereço do novo objeto que inseri
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		
+		// retonando uma resposta vazia com o códico HTTP 201 e com cabeçalho contendo a localização do recurso criado
+		return ResponseEntity.created(uri).build();
+	}
+	
 }
