@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,6 +61,12 @@ public class UserResource {
 		
 		// retonando uma resposta vazia com o códico HTTP 201 e com cabeçalho contendo a localização do recurso criado
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@DeleteMapping(value="/{id}") // ou @RequestMapping(value="/{id}", method=RequestMethod.DALETE) 
+	public ResponseEntity<Void> delete(@PathVariable String id){ // O @PathVariable serve para usar id na URL
+		service.delete(id);		
+		return ResponseEntity.noContent().build();
 	}
 	
 }
