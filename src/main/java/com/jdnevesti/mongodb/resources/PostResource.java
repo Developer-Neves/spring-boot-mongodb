@@ -16,7 +16,8 @@ public class PostResource {
 	
 	@Autowired
 	private PostService service;
-		
+	
+	// Obtendo um post por id
 	@GetMapping(value="/{id}") // ou @RequestMapping(value="/{id}", method=RequestMethod.GET) 
 	public ResponseEntity<Post> findById(@PathVariable String id){ // O @PathVariable serve para usar id na URL
 		Post obj = service.findById(id);		
