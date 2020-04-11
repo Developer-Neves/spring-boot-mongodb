@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.jdnevesti.mongodb.domain.Post;
 import com.jdnevesti.mongodb.domain.User;
 import com.jdnevesti.mongodb.dto.UserDTO;
 import com.jdnevesti.mongodb.services.UserService;
@@ -76,5 +77,12 @@ public class UserResource {
 		obj.setId(id); // pegando o id que veio no parametro
 		obj = service.update(obj); // chamando o método insert e inserindo os dados no banco
 		return ResponseEntity.noContent().build();
+	}
+	
+	// Endpoint para retornar os posts de um usuário
+	@GetMapping(value="/{id}/posts") // ou @RequestMapping(value="/{id}/posts", method=RequestMethod.GET) 
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id){ // O @PathVariable serve para usar id na URL
+		User obj = service.findById(id);		
+		return ResponseEntity.ok().body(obj.getPosts());
 	}
 }
