@@ -3,9 +3,9 @@ package com.jdnevesti.mongodb.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.jdnevesti.mongodb.domain.User;
+import com.jdnevesti.mongodb.domain.Post;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
+public interface PostRepository extends MongoRepository<Post, String>{
 
 }
