@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,4 +70,11 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PutMapping(value="/{id}") // ou @RequestMapping(method=RequestMethod.PUT) 
+	public ResponseEntity<Void> update(@RequestBody UserDTO objDto, @PathVariable String id){
+		User obj = service.fromDTO(objDto);	// convertendo o objDto para o User obj
+		obj.setId(id); // pegando o id que veio no parametro
+		obj = service.update(obj); // chamando o método insert e inserindo os dados no banco
+		return ResponseEntity.noContent().build();
+	}
 }

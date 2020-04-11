@@ -27,16 +27,30 @@ public class UserService {
 		return user.orElseThrow(() -> new ObjectNotFoundException("Obejeto não encontrado"));
 	}
 	
-	// insere usuário
+	// inserir usuário
 	public User insert(User obj) {
 		return repo.insert(obj);
 	}
 	
+	// exceluir usuário
 	public void delete(String id) {
 		findById(id);
 		repo.deleteById(id);
 	}
-		
+	
+	// atualizar usuário
+	public User update(User obj) {
+		User newObj = findById(obj.getId()); // criei um novo objeto pedando os dados do banco
+		updateData(newObj, obj); // método para atualizar os dados do obj para o newObj
+		return repo.save(newObj); // salvando os novos dados do usuário no banco
+	}
+	
+	// método para entregar os dados do obj para o newObj
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
+
 	public User fromDTO(UserDTO objDto) {
 		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
 	}
