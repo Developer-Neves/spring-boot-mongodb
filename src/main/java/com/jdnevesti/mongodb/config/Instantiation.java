@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.jdnevesti.mongodb.domain.Post;
 import com.jdnevesti.mongodb.domain.User;
+import com.jdnevesti.mongodb.dto.AuthorDTO;
 import com.jdnevesti.mongodb.repository.PostRepository;
 import com.jdnevesti.mongodb.repository.UserRepository;
 
@@ -37,11 +38,12 @@ public class Instantiation implements CommandLineRunner{
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abraçoes!", maria);
-		Post post2 = new Post(null, sdf.parse("13/14/2019"), "Bom dia", "Acordei feliz hoje!", maria);
-		
 		// cadastrando os usuários
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+		
+		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abraçoes!", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("13/14/2019"), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(maria));
+		
 		// salvando os posts
 		postRepository.saveAll(Arrays.asList(post1, post2));
 	}
