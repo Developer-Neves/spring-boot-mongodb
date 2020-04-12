@@ -1,5 +1,6 @@
 package com.jdnevesti.mongodb.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +30,11 @@ public class PostService {
 	
 	public List<Post> findByTitle(String text){
 		return repo.searchTitle(text);
+	}
+	
+	// busca por texto no título, corpo e comentários, em um intervalo de data
+	public List<Post> fullSearch(String text, Date minDate, Date maxDate){
+		maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000); // corrigindo a data máxima
+		return repo.fullSearch(text, minDate, maxDate);
 	}
 }
